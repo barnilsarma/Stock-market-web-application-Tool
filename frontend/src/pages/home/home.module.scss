@@ -1,0 +1,420 @@
+// Dark Theme Color Palette
+$dark-bg: #0f1419;
+$dark-bg-secondary: #1a1f2e;
+$dark-bg-tertiary: #252d3d;
+$accent-primary: #00d4ff;
+$accent-secondary: #00ff88;
+$accent-warning: #ffa500;
+$text-primary: #ffffff;
+$text-secondary: #b0b8c1;
+$border-color: #2a3444;
+$shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+$shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+
+// Responsive Breakpoints
+$tablet: 768px;
+$desktop: 1024px;
+$wide: 1440px;
+
+// Transitions
+$transition-base: all 0.3s ease;
+$transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Home Page Container
+.homePage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $dark-bg 0%, $dark-bg-secondary 50%, $dark-bg 100%);
+  color: $text-primary;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+
+  // Hero Section
+  .heroSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    justify-items: center;
+    min-height: 100vh;
+    padding: 6rem 4rem;
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 212, 255, 0.05) 0%,
+      rgba(0, 255, 136, 0.02) 50%,
+      rgba(0, 212, 255, 0.05) 100%
+    );
+
+    // Animated background elements
+    &::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 1000px;
+      height: 1000px;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 20s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -30%;
+      left: -30%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 15s ease-in-out infinite reverse;
+      z-index: 0;
+    }
+
+    @media (max-width: $desktop) {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      padding: 4rem 2rem;
+      min-height: auto;
+    }
+
+    // Hero Content
+    .heroContent {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+
+      // Hero Text
+      .heroText {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        animation: slideInUp 0.8s ease-out;
+
+        // Title
+        .title {
+          font-size: clamp(2.5rem, 5vw, 3.5rem);
+          font-weight: 800;
+          line-height: 1.1;
+          margin: 0;
+          background: linear-gradient(135deg, $accent-primary 0%, $accent-secondary 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          letter-spacing: -1px;
+        }
+
+        // Subtitle
+        .subtitle {
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: $text-primary;
+          margin: 0;
+          letter-spacing: 0.5px;
+        }
+
+        // Description
+        .description {
+          font-size: 1rem;
+          color: $text-secondary;
+          margin: 0;
+          line-height: 1.6;
+          max-width: 500px;
+        }
+      }
+
+      // Button Group
+      .buttonGroup {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        animation: slideInUp 0.8s ease-out 0.1s backwards;
+
+        .btn {
+          padding: 1rem 2.5rem;
+          border: none;
+          border-radius: 12px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 0.8rem;
+          transition: $transition-smooth;
+          position: relative;
+          overflow: hidden;
+          font-family: inherit;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s ease;
+            z-index: 0;
+          }
+
+          &:hover::before {
+            left: 100%;
+          }
+
+          & > * {
+            position: relative;
+            z-index: 1;
+          }
+
+          // Google Button
+          &.btnGoogle {
+            background: $dark-bg-tertiary;
+            color: $text-primary;
+            border: 2px solid $border-color;
+
+            &:hover {
+              border-color: $accent-primary;
+              background: rgba(0, 212, 255, 0.1);
+              transform: translateY(-2px);
+              box-shadow: 0 8px 24px rgba(0, 212, 255, 0.2);
+            }
+
+            .googleIcon {
+              width: 20px;
+              height: 20px;
+              stroke-width: 2;
+            }
+          }
+
+          // Primary Button
+          &.btnPrimary {
+            background: linear-gradient(135deg, $accent-primary 0%, $accent-secondary 100%);
+            color: $dark-bg;
+            box-shadow: $shadow-lg;
+
+            &:hover {
+              transform: translateY(-3px);
+              box-shadow: 0 25px 50px rgba(0, 212, 255, 0.3);
+            }
+
+            &:active {
+              transform: translateY(-1px);
+            }
+          }
+        }
+
+        @media (max-width: $tablet) {
+          flex-direction: column;
+          gap: 1rem;
+
+          .btn {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+      }
+
+      // Features
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+        animation: slideInUp 0.8s ease-out 0.2s backwards;
+
+        .feature {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.8rem;
+          padding: 1.5rem;
+          background: rgba($dark-bg-tertiary, 0.5);
+          border: 1px solid $border-color;
+          border-radius: 12px;
+          transition: $transition-base;
+
+          &:hover {
+            background: rgba($dark-bg-tertiary, 0.8);
+            border-color: $accent-primary;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 212, 255, 0.15);
+          }
+
+          .icon {
+            font-size: 2rem;
+            display: inline-block;
+          }
+
+          .featureText {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: $text-primary;
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    // Hero Visual
+    .heroVisual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+      animation: slideInRight 0.8s ease-out;
+
+      .chartPlaceholder {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 1rem;
+        width: 100%;
+        height: 100%;
+        padding: 2rem;
+        background: linear-gradient(135deg, rgba($dark-bg-tertiary, 0.5) 0%, rgba($dark-bg-secondary, 0.3) 100%);
+        border: 2px solid $border-color;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        transition: $transition-base;
+
+        &:hover {
+          border-color: $accent-primary;
+          background: linear-gradient(135deg, rgba($dark-bg-tertiary, 0.7) 0%, rgba($dark-bg-secondary, 0.5) 100%);
+          box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
+        }
+
+        .chartBar {
+          width: 40px;
+          background: linear-gradient(180deg, $accent-primary 0%, $accent-secondary 100%);
+          border-radius: 8px 8px 0 0;
+          transition: all 0.6s ease;
+          box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+          position: relative;
+
+          &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+            border-radius: 8px 8px 0 0;
+          }
+
+          &:hover {
+            transform: scaleY(1.15);
+            box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5);
+          }
+        }
+      }
+
+      @media (max-width: $desktop) {
+        height: 300px;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(30px);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: $tablet) {
+  .homePage {
+    .heroSection {
+      padding: 3rem 1.5rem;
+
+      .heroContent {
+        gap: 2rem;
+
+        .heroText {
+          .title {
+            font-size: 2rem;
+          }
+
+          .subtitle {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .homePage {
+    .heroSection {
+      padding: 2rem 1rem;
+
+      .heroContent {
+        gap: 1.5rem;
+
+        .heroText {
+          gap: 1rem;
+
+          .title {
+            font-size: 1.75rem;
+          }
+
+          .subtitle {
+            font-size: 0.95rem;
+          }
+
+          .description {
+            font-size: 0.9rem;
+          }
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .heroVisual {
+        height: 250px;
+
+        .chartPlaceholder {
+          .chartBar {
+            width: 30px;
+          }
+        }
+      }
+    }
+  }
+}
