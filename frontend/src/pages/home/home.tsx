@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import styles from "./home.module.scss";
 import { auth } from "../../firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { userAPI } from "../../services/api";
+import AdminDashboard from "../../components/AdminDashboard";
+import UserView from "../../components/UserView";
 
 const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loggedInUser, setLoggedInUser] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -13,17 +18,72 @@ const Home: React.FC = () => {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      console.log("Logged in as:", result.user.email);
-      // TODO: Handle successful login (redirect, store user, etc.)
-      alert(`Welcome, ${result.user.displayName || result.user.email}!`);
+      const email = result.user.email!;
+      const displayName = result.user.displayName || email;
+      const idToken = await result.user.getIdToken();
+
+      // Check if user exists in DB
+      try {
+        const userResponse = await userAPI.read(email);
+        const userData = userResponse.data;
+        setLoggedInUser(userData);
+        setIsAdmin(userData.role === 'admin');
+      } catch (err: any) {
+        // User not found, create new user
+        if (err.response?.status === 404 || err.message.includes('Cannot read')) {
+          console.log('User not found, creating new user...');
+          const newUser = await userAPI.create({
+            name: displayName,
+            email,
+            role: 'user', // Default to user
+            token: idToken,
+          });
+          setLoggedInUser(newUser.data);
+          setIsAdmin(false);
+        } else {
+          throw err;
+        }
+      }
     } catch (err: any) {
-      console.error("Google login error:", err.message);
-      setError(err.message || "Failed to login with Google");
+      console.error("Login error:", err.message);
+      setError(err.response?.data?.message || err.message || "Failed to login");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setLoggedInUser(null);
+      setIsAdmin(false);
+    } catch (err: any) {
+      console.error("Logout error:", err.message);
+    }
+  };
+
+  // Show admin dashboard
+  if (loggedInUser && isAdmin) {
+    return (
+      <AdminDashboard
+        userId={loggedInUser._id}
+        userEmail={loggedInUser.email}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
+  // Show user view
+  if (loggedInUser && !isAdmin) {
+    return (
+      <UserView
+        userEmail={loggedInUser.email}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
+  // Show hero page
   return (
     <div className={styles.homePage}>
       {/* Hero Section */}
