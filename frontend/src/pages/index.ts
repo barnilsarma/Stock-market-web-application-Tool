@@ -1,3 +1,4 @@
 import home from "./home/home";
-
-export { home };
+import AdminDashboard from "./adminDashboard/adminDashboard";
+import Posts from "./posts/posts";
+export { home, AdminDashboard, Posts };

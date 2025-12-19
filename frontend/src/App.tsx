@@ -7,6 +7,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<pages.home/>} />
+          <Route path="/admin" element={<pages.AdminDashboard/>} />
+          <Route path="/posts" element={<pages.Posts/>} />
         </Routes>
       </BrowserRouter>
     </>

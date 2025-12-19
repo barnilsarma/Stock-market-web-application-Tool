@@ -19,8 +19,8 @@ export const userAPI = {
 // Company endpoints
 export const companyAPI = {
   create: (data: any) => apiClient.post('/company', data),
-  read: (id?: string) =>
-    apiClient.get(`/company${id ? `/${id}` : ''}`),
+  read: (userId?: string) =>
+    apiClient.get(`/company`,{params: { userId }}),
   update: (id: string, data: any) => apiClient.patch(`/company/${id}`, data),
   delete: (id: string) => apiClient.delete(`/company/${id}`),
 };
@@ -29,7 +29,7 @@ export const companyAPI = {
 export const niftyAPI = {
   create: (data: any) => apiClient.post('/nifty', data),
   read: (id?: string) =>
-    apiClient.get(`/nifty${id ? `/${id}` : ''}`),
+    apiClient.get(`/nifty`,{params: { userId: id }}),
   update: (id: string, data: any) => apiClient.patch(`/nifty/${id}`, data),
   delete: (id: string) => apiClient.delete(`/nifty/${id}`),
 };
